@@ -1,5 +1,5 @@
 syntax on
-colorscheme slate
+colorscheme desert
 
 """"""""""" Variables
 set nocompatible      " We're running Vim, not Vi!
