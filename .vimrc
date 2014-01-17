@@ -1,5 +1,5 @@
 syntax on
-colorscheme desert
+colorscheme slate
 
 """"""""""" Variables
 set nocompatible      " We're running Vim, not Vi!
@@ -158,13 +158,13 @@ nmap <s-tab> ^i<bs><esc>
 "let twitvim_api_root = "http://indy.im/api" 
 "let twitvim_api_root = "http://identi.ca/api" 
 let twitvim_cert_insecure = 1 
+let twitvim_force_ssl = 1
 let twitvim_browser_cmd = 'iceweasel'
 nnoremap <F8> :FriendsTwitter<cr>
 nnoremap <S-F8> :UserTwitter<cr>
 nnoremap <A-F8> :RepliesTwitter<cr>
 nnoremap <C-F8> :DMTwitter<cr>
 nnoremap <F9> :FollowTwitter <C-R><C-W><cr>
-
 
 
 """""""" Vimclojure
@@ -175,5 +175,7 @@ let vimclojure#WantNailgun = 1
 let vimclojure#NailgunClient = "/usr/local/bin/ng"
 "let VIMCLOJURE_SERVER_JAR="$HOME/lib/vimclojure/server-2.3.0.jar"
 
+"""" Pathogen 
+execute pathogen#infect()
 """" Private shizzle
 source ~/.vimprivate
