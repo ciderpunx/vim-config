@@ -1,17 +1,17 @@
 syntax on
-colorscheme desert
+colorscheme slate
 
 """"""""""" Variables
 set nocompatible      " We're running Vim, not Vi!
 set hlsearch
 set guioptions-=T
 set incsearch
-set nowrap 
-set sw=2 
+set nowrap
+set sw=2
 set tw=9999
-set sts=2 
-set ts=2 
-set noexpandtab
+set sts=2
+set ts=2
+set expandtab
 set showmatch
 set nu
 set sb
@@ -26,6 +26,7 @@ set laststatus=2
 set pastetoggle=<F11>
 set autoindent
 set smartindent
+
 
 """""""" Specific language bits
 let PHP_BracesAtCodeLevel = 0
@@ -116,6 +117,8 @@ augroup encrypted
   autocmd BufWritePost,FileWritePost *.gpg,*.asc u
 augroup END
 
+" Perl template toolkit syntax
+autocmd BufNewFile,BufRead *.tt setfiletype html
 
 """"""""""""""" Key mappings
 " File explorer in new window - use NERDTree instead
@@ -151,6 +154,22 @@ vmap <s-tab> <gv
 nmap <tab> I<tab><esc>
 nmap <s-tab> ^i<bs><esc>
 
+"""" for drag visuals (cf: https://github.com/shinokada/dragvisuals.vim)
+
+vmap <expr>  <S-LEFT>   DVB_Drag('left')
+vmap <expr>  <S-RIGHT>  DVB_Drag('right')
+vmap <expr>  <S-DOWN>   DVB_Drag('down')
+vmap <expr>  <S-UP>     DVB_Drag('up')
+vmap <expr>  D        DVB_Duplicate()
+
+" Remove any introduced trailing whitespace after moving... 
+let g:DVB_TrimWS = 1                                        
+
+""" Omnicomplete and supertab
+highlight Pmenu guibg=DarkSlateGray guifg=LightGray ctermbg=DarkGray ctermfg=LightGray gui=bold 
+set omnifunc=syntaxcomplete#Complete
+let g:SuperTabDefaultCompletionType = "context"
+
 
 """"""""" TWitVIM config
 
@@ -159,6 +178,8 @@ nmap <s-tab> ^i<bs><esc>
 "let twitvim_api_root = "http://identi.ca/api" 
 let twitvim_cert_insecure = 1 
 let twitvim_browser_cmd = 'iceweasel'
+let twitvim_force_ssl = 1
+let twitvim_old_retweet = 1
 nnoremap <F8> :FriendsTwitter<cr>
 nnoremap <S-F8> :UserTwitter<cr>
 nnoremap <A-F8> :RepliesTwitter<cr>
@@ -174,6 +195,9 @@ let vimclojure#ParenRainbow  = 1
 let vimclojure#WantNailgun = 1
 let vimclojure#NailgunClient = "/usr/local/bin/ng"
 "let VIMCLOJURE_SERVER_JAR="$HOME/lib/vimclojure/server-2.3.0.jar"
+
+"""""" Pathogen needed for syntastic
+execute pathogen#infect()
 
 """" Private shizzle
 source ~/.vimprivate
