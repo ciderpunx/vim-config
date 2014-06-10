@@ -196,13 +196,8 @@ let vimclojure#WantNailgun = 1
 let vimclojure#NailgunClient = "/usr/local/bin/ng"
 "let VIMCLOJURE_SERVER_JAR="$HOME/lib/vimclojure/server-2.3.0.jar"
 
-<<<<<<< HEAD
 """""" Pathogen needed for syntastic
 execute pathogen#infect()
 
-=======
-"""" Pathogen 
-execute pathogen#infect()
->>>>>>> eb265d22c54055b4b393fff030703d43a004bd06
 """" Private shizzle
 source ~/.vimprivate
