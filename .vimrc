@@ -32,7 +32,8 @@ set laststatus=2
 set pastetoggle=<F11>
 set autoindent
 set smartindent
-
+set listchars=eol:¬,tab:→→,nbsp:·,trail:•,extends:»,precedes:«
+set list
 
 """""""" Specific language bits
 let PHP_BracesAtCodeLevel = 0
