@@ -1,5 +1,11 @@
 syntax on
-colorscheme slate
+
+if has('gui_running')
+  set guioptions-=T  " no toolbar
+  colorscheme desert
+else
+  colorscheme slate
+endif
 
 """"""""""" Variables
 set nocompatible      " We're running Vim, not Vi!
@@ -177,7 +183,6 @@ let g:SuperTabDefaultCompletionType = "context"
 "let twitvim_api_root = "http://indy.im/api" 
 "let twitvim_api_root = "http://identi.ca/api" 
 let twitvim_cert_insecure = 1 
-let twitvim_force_ssl = 1
 let twitvim_browser_cmd = 'iceweasel'
 let twitvim_force_ssl = 1
 let twitvim_old_retweet = 1
@@ -186,6 +191,7 @@ nnoremap <S-F8> :UserTwitter<cr>
 nnoremap <A-F8> :RepliesTwitter<cr>
 nnoremap <C-F8> :DMTwitter<cr>
 nnoremap <F9> :FollowTwitter <C-R><C-W><cr>
+
 
 
 """""""" Vimclojure
