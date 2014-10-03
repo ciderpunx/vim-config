@@ -178,6 +178,13 @@ highlight Pmenu guibg=DarkSlateGray guifg=LightGray ctermbg=DarkGray ctermfg=Lig
 set omnifunc=syntaxcomplete#Complete
 let g:SuperTabDefaultCompletionType = "context"
 
+""" Haskell stuff: hdevtools
+" Helps it work with files mounted on an sshfs
+let g:hdevtools_options = "--socket=/tmp/hdevtools.sock"
+
+au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
+au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsInfo<CR>
 
 """"""""" TWitVIM config
 
@@ -204,7 +211,7 @@ let vimclojure#WantNailgun = 1
 let vimclojure#NailgunClient = "/usr/local/bin/ng"
 "let VIMCLOJURE_SERVER_JAR="$HOME/lib/vimclojure/server-2.3.0.jar"
 
-"""""" Pathogen needed for syntastic
+"""""" Pathogen needed for syntastic and various other bundles
 execute pathogen#infect()
 
 """" Private shizzle
