@@ -1,10 +1,11 @@
 syntax on
+set background=dark
 
 if has('gui_running')
   set guioptions-=T  " no toolbar
-  colorscheme desert
+  colorscheme solarized
 else
-  colorscheme slate
+  colorscheme solarized
 endif
 
 """"""""""" Variables
@@ -26,7 +27,7 @@ set spr
 set showtabline=2
 set foldmethod=indent
 set ff=unix
-set gfn=Bitstream\ Vera\ Sans\ Mono\ 11
+set gfn=Inconsolata\ Medium\ 14
 set statusline=[FILE\ %F%m%r%w\ -\ %{&ff}\,%L\ lines\]\ \ \ \ [CHAR\ acsii:%03.3b\,hex:%02.2B]\ \ \ \ [POS\ %04l\,%04v\ -\ %p%%]
 set laststatus=2
 set pastetoggle=<F11>
