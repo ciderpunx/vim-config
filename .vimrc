@@ -35,6 +35,7 @@ set autoindent
 set smartindent
 set listchars=eol:¬,tab:→→,nbsp:·,trail:•,extends:»,precedes:«
 set list
+set cursorline
 
 """""""" Specific language bits
 let PHP_BracesAtCodeLevel = 0
