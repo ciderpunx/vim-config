@@ -181,7 +181,7 @@ let g:SuperTabDefaultCompletionType = "context"
 
 """ Haskell stuff: hdevtools
 " Helps it work with files mounted on an sshfs
-let g:hdevtools_options = "--socket=/tmp/hdevtools.sock"
+let g:syntastic_haskell_hdevtools_args= "--socket=/tmp/hdevtools.sock"
 
 au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
 au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
