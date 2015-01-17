@@ -10,6 +10,10 @@ endif
 
 """"""""""" Variables
 set nocompatible      " We're running Vim, not Vi!
+set encoding=utf-8 " to deal with freebsd terminal intransigence
+set fileencodings=utf-8
+set termencoding=utf-8
+setglobal fileencoding=utf-8
 set hlsearch
 set guioptions-=T
 set incsearch
