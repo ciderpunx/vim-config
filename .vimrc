@@ -10,6 +10,10 @@ endif
 
 """"""""""" Variables
 set nocompatible      " We're running Vim, not Vi!
+set encoding=utf-8 " to deal with freebsd terminal intransigence
+set fileencodings=utf-8
+set termencoding=utf-8
+setglobal fileencoding=utf-8
 set hlsearch
 set guioptions-=T
 set incsearch
@@ -35,6 +39,7 @@ set autoindent
 set smartindent
 set listchars=eol:¬,tab:→→,nbsp:·,trail:•,extends:»,precedes:«
 set list
+set cursorline
 
 """""""" Specific language bits
 let PHP_BracesAtCodeLevel = 0
@@ -178,6 +183,13 @@ highlight Pmenu guibg=DarkSlateGray guifg=LightGray ctermbg=DarkGray ctermfg=Lig
 set omnifunc=syntaxcomplete#Complete
 let g:SuperTabDefaultCompletionType = "context"
 
+""" Haskell stuff: hdevtools
+" Helps it work with files mounted on an sshfs
+let g:syntastic_haskell_hdevtools_args= "--socket=/tmp/hdevtools.sock"
+
+au FileType haskell nnoremap <buffer> <F1> :HdevtoolsType<CR>
+au FileType haskell nnoremap <buffer> <silent> <F2> :HdevtoolsClear<CR>
+au FileType haskell nnoremap <buffer> <silent> <F3> :HdevtoolsInfo<CR>
 
 """"""""" TWitVIM config
 
@@ -204,7 +216,7 @@ let vimclojure#WantNailgun = 1
 let vimclojure#NailgunClient = "/usr/local/bin/ng"
 "let VIMCLOJURE_SERVER_JAR="$HOME/lib/vimclojure/server-2.3.0.jar"
 
-"""""" Pathogen needed for syntastic
+"""""" Pathogen needed for syntastic and various other bundles
 execute pathogen#infect()
 
 """" Private shizzle
