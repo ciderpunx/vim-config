@@ -13,7 +13,7 @@ set nocompatible      " We're running Vim, not Vi!
 set hlsearch
 set guioptions-=T
 set incsearch
-set nowrap
+set wrap
 set sw=2
 set tw=9999
 set sts=2
