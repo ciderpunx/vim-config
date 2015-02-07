@@ -5336,6 +5336,24 @@ function! s:call_isgd(url)
 endfunction
 
 
+" Call ox4.li API to shorten a URL.
+function! s:call_ox4li(url)
+    redraw
+    echo "Sending request to ox4.li..."
+
+    let url = 'https://ox4.li/text_create?url='.s:url_encode(a:url)
+    let [error, output] = s:run_curl(url, '', s:get_proxy(), s:get_proxy_login(), {})
+
+    if error != ''
+        call s:errormsg("Error calling ox4.li API: ".error)
+        return ""
+    else
+        redraw
+        echo "Received response from ox4.li."
+        return output
+    endif
+endfunction
+
 " Get urlBorg API key if configured by the user. Otherwise, use a default API
 " key.
 function! s:get_urlborg_key()
@@ -5630,6 +5648,16 @@ if !exists(":AIsGd")
 endif
 if !exists(":PIsGd")
     command -nargs=? PIsGd :call <SID>GetShortURL("cmdline", <q-args>, "call_isgd")
+endif
+
+if !exists(":Ox4Li")
+    command -nargs=? Ox4Li :call <SID>GetShortURL("insert", <q-args>, "call_ox4li")
+endif
+if !exists(":AOx4Li")
+    command -nargs=? AOx4Li :call <SID>GetShortURL("append", <q-args>, "call_ox4li")
+endif
+if !exists(":POx4Li")
+    command -nargs=? POx4Li :call <SID>GetShortURL("cmdline", <q-args>, "call_ox4li")
 endif
 
 if !exists(":UrlBorg")
