@@ -2,28 +2,36 @@
 " TwitVim - Post to Twitter from Vim
 " Based on Twitter Vim script by Travis Jeffery <eatsleepgolf@gmail.com>
 "
-" Version: 0.8.0
+" Version: 0.8.2
 " License: Vim license. See :help license
 " Language: Vim script
 " Maintainer: Po Shan Cheah <morton@mortonfox.com>
 " Created: March 28, 2008
-" Last updated: January 2, 2013
+" Last updated: March 26, 2014
 "
 " GetLatestVimScripts: 2204 1 twitvim.vim
 " ==============================================================
 
 " Load this module only once.
-if exists('loaded_twitvim')
+if exists('g:loaded_twitvim')
     finish
 endif
-let loaded_twitvim = 1
+let g:loaded_twitvim = '0.8.2 2014-03-26'
+
+" Check Vim version.
+if v:version < 703
+    echohl WarningMsg
+    echomsg 'You need Vim 7.3 or later for this version of TwitVim'
+    echohl None
+    finish
+endif
 
 " Avoid side-effects from cpoptions setting.
 let s:save_cpo = &cpo
 set cpo&vim
 
 " User agent header string.
-let s:user_agent = 'TwitVim 0.8.0 2013-01-02'
+let s:user_agent = 'TwitVim '.g:loaded_twitvim
 
 " Twitter character limit. Twitter used to accept tweets up to 246 characters
 " in length and display those in truncated form, but that is no longer the
@@ -37,11 +45,11 @@ let s:service_info = {
             \ 'dispname'        : 'Twitter',
             \ 'consumer_key'    : 'HyshEU8SbcsklPQ6ouF0g',
             \ 'consumer_secret' : 'U1uvxLjZxlQAasy9Kr5L2YAFnsvYTOqx1bk7uJuezQ',
-            \ 'req_url'         : 'http://api.twitter.com/oauth/request_token',
-            \ 'access_url'      : 'http://api.twitter.com/oauth/access_token',
-            \ 'authorize_url'   : 'http://api.twitter.com/oauth/authorize',
-            \ 'api_root'        : 'http://api.twitter.com/1.1',
-            \ 'search_api'      : 'http://api.twitter.com/1.1/search/tweets.json',
+            \ 'req_url'         : 'https://api.twitter.com/oauth/request_token',
+            \ 'access_url'      : 'https://api.twitter.com/oauth/access_token',
+            \ 'authorize_url'   : 'https://api.twitter.com/oauth/authorize',
+            \ 'api_root'        : 'https://api.twitter.com/1.1',
+            \ 'search_api'      : 'https://api.twitter.com/1.1/search/tweets.json',
             \ },
             \ 'identica' : {
             \ 'dispname'        : 'identi.ca',
@@ -268,7 +276,7 @@ endfunction
 function! s:warnmsg(msg)
     redraw
     echohl WarningMsg
-    echo a:msg
+    echomsg a:msg
     echohl None
 endfunction
 
@@ -2275,6 +2283,13 @@ function! s:post_twitter(mesg, inreplyto)
     " Convert internal newlines to spaces.
     let mesg = substitute(mesg, '\n', ' ', "g")
 
+    let mesglen = s:mbstrlen(mesg)
+    " Check for zero-length tweets or user cancel at prompt.
+    if mesglen < 1
+        call s:warnmsg("Your tweet was empty. It was not sent.")
+        return
+    end
+
     " Only Twitter has a built-in URL wrapper thus far.
     if s:get_cur_service() == 'twitter'
         " Pretend to shorten URLs.
@@ -2292,8 +2307,6 @@ function! s:post_twitter(mesg, inreplyto)
     " string length.
     if mesglen > s:char_limit
         call s:warnmsg("Your tweet has ".(mesglen - s:char_limit)." too many characters. It was not sent.")
-    elseif mesglen < 1
-        call s:warnmsg("Your tweet was empty. It was not sent.")
     else
         redraw
         echo "Posting update..."
@@ -2696,22 +2709,27 @@ let s:URL_PROTOCOL = '\%([Hh][Tt][Tt][Pp]\|[Hh][Tt][Tt][Pp][Ss]\|[Ff][Tt][Pp]\):
 let s:URL_PROTOCOL_HTTPS = '\%([Hh][Tt][Tt][Pp][Ss]\)://'
 let s:URL_PROTOCOL_NON_HTTPS = '\%([Hh][Tt][Tt][Pp]\|[Ff][Tt][Pp]\)://'
 
-let s:URL_DOMAIN = '[^[:space:])/]\+'
-let s:URL_PATH_CHARS = '[^[:space:]()]'
+" s:URL_DOMAIN_CHARS is s:URL_PATH_CHARS without /
+let s:URL_DOMAIN_CHARS = '[a-zA-Z0-9!$&''()*+,.:;=?@_~%#-]'
+" s:URL_DOMAIN_END_CHARS is s:URL_PATH_END_CHARS without /
+let s:URL_DOMAIN_END_CHARS = '[a-zA-Z0-9!$&''*+=?@_~%#-]'
+let s:URL_DOMAIN_PARENS = '('.s:URL_DOMAIN_CHARS.'*)'
+let s:URL_DOMAIN = '\%('.'\%('.s:URL_DOMAIN_CHARS.'*'.s:URL_DOMAIN_PARENS.'\)'.'\|'.'\%('.s:URL_DOMAIN_CHARS.'*'.s:URL_DOMAIN_END_CHARS.'\)'.'\)'
 
-" URL paths may contain balanced parentheses.
+let s:URL_PATH_CHARS = '[a-zA-Z0-9!$&''()*+,./:;=?@_~%#-]'
 let s:URL_PARENS = '('.s:URL_PATH_CHARS.'*)'
 
 " Avoid swallowing up certain punctuation characters after a URL but allow a
 " URL to end with a balanced parenthesis.
-let s:URL_PATH_END = '\%([^[:space:]\.,;:()]\|'.s:URL_PARENS.'\)'
+" So s:URL_PATH_END_CHARS is s:URL_PATH_CHARS without .,:;()
+let s:URL_PATH_END_CHARS = '[a-zA-Z0-9!$&''*+/=?@_~%#-]'
 
-let s:URL_PATH = '\%('.s:URL_PATH_CHARS.'*\%('.s:URL_PARENS.s:URL_PATH_CHARS.'*\)*'.s:URL_PATH_END.'\)\|\%('.s:URL_PATH_CHARS.'\+\)'
+let s:URL_PATH = '\%('.'\%('.s:URL_PATH_CHARS.'*'.s:URL_PARENS.'\)'.'\|'.'\%('.s:URL_PATH_CHARS.'*'.s:URL_PATH_END_CHARS.'\)'.'\)'
 
 " Bring it all together. Use this regex to match a URL.
-let s:URLMATCH = s:URL_PROTOCOL.s:URL_DOMAIN.'\%(/\%('.s:URL_PATH.'\)\=\)\='
-let s:URLMATCH_HTTPS = s:URL_PROTOCOL_HTTPS.s:URL_DOMAIN.'\%(/\%('.s:URL_PATH.'\)\=\)\='
-let s:URLMATCH_NON_HTTPS = s:URL_PROTOCOL_NON_HTTPS.s:URL_DOMAIN.'\%(/\%('.s:URL_PATH.'\)\=\)\='
+let s:URLMATCH = s:URL_PROTOCOL.s:URL_DOMAIN.'\%(/'.s:URL_PATH.'\=\)\='
+let s:URLMATCH_HTTPS = s:URL_PROTOCOL_HTTPS.s:URL_DOMAIN.'\%(/'.s:URL_PATH.'\=\)\='
+let s:URLMATCH_NON_HTTPS = s:URL_PROTOCOL_NON_HTTPS.s:URL_DOMAIN.'\%(/'.s:URL_PATH.'\=\)\='
 
 
 " Launch web browser with the URL at the cursor position. If possible, this
@@ -2788,6 +2806,14 @@ function! s:launch_url_cword(infobuf)
         call s:get_summize(matchres[1], 1, 0)
         return
     endif
+
+    " $-stocksymbols are like $-hashtags but only alphabetic.
+    let matchres = matchlist(s, '\w\@<!\(\$\a\+\)')
+    if matchres != []
+        call s:get_summize(matchres[1], 1, 0)
+        return
+    endif
+
 
     let s = substitute(s, '^.\{-}\('.s:URLMATCH.'\).\{-}$', '\1', "")
     call s:launch_browser(s)
@@ -2990,6 +3016,9 @@ function! s:twitter_win_syntax(wintype)
         " A #-hashtag must be preceded by a non-word character and ends at a
         " non-word character.
         syntax match twitterLink "\w\@<!#\w\+"
+
+        " $-stocksymbols are like $-hashtags but only alphabetic.
+        syntax match twitterLink "\w\@<!$\a\+"
 
         " Use the extra star at the end to recognize the title but hide the
         " star.
@@ -4682,20 +4711,20 @@ function! s:get_friends_info_2(ids, index)
     if idslice == []
         call s:errormsg('No friends/followers?')
         return []
-    else
-        let url = s:get_api_root().'/users/lookup.json'
-        let parms = {}
-        let parms.include_entities = 'true'
-        let parms.user_id = join(idslice, ',')
+    endif
 
-        let [error, output] = s:run_curl_oauth_get(url, parms)
-        let result = s:parse_json(output)
-        if error != ''
-            let errormsg = get(result, 'error', '')
-            call s:errormsg('Error getting friends/followers info: '.(errormsg != '' ? errormsg : error))
-            return []
-        endif
-    end
+    let url = s:get_api_root().'/users/lookup.json'
+    let parms = {}
+    let parms.include_entities = 'true'
+    let parms.user_id = join(idslice, ',')
+
+    let [error, output] = s:run_curl_oauth_get(url, parms)
+    let result = s:parse_json(output)
+    if error != ''
+        let errormsg = get(result, 'error', '')
+        call s:errormsg('Error getting friends/followers info: '.(errormsg != '' ? errormsg : error))
+        return []
+    endif
 
     " Reorder result according to ID list. Twitter loses the ordering when you call it on 100 user IDs.
     let idindex = {}
@@ -4703,7 +4732,9 @@ function! s:get_friends_info_2(ids, index)
         let idindex[get(user, 'id_str', '')] = user
     endfor
 
-    return map(copy(idslice), 'idindex[v:val]')
+    " users/lookup may skip some IDs that have been suspended. So we have to be
+    " careful and filter out any IDs for which there is no info.
+    return filter(map(copy(idslice), 'get(idindex, v:val, {})'), 'v:val != {}')
 endfunction
 
 " Call Twitter API to get friends or followers list.

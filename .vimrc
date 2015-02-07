@@ -17,7 +17,7 @@ setglobal fileencoding=utf-8
 set hlsearch
 set guioptions-=T
 set incsearch
-set nowrap
+set wrap
 set sw=2
 set tw=9999
 set sts=2
