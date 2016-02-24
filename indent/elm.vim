@@ -20,10 +20,10 @@ setlocal indentkeys+=0=else,0=in,0=where,0),0<bar>
 setlocal tabstop=8
 setlocal expandtab
 
-if !exists('g:Haskell_no_mapping')
-  inoremap <silent> <BS> <C-R>=<SID>HaskellDedent(1)<CR>
-  inoremap <silent> <C-D> <C-R>=<SID>HaskellDedent(0)<CR>
-endif
+"if !exists('g:Haskell_no_mapping')
+"  inoremap <silent> <BS> <C-R>=<SID>HaskellDedent(1)<CR>
+"  inoremap <silent> <C-D> <C-R>=<SID>HaskellDedent(0)<CR>
+"endif
 
 " Only define the functions once.
 if exists("*HaskellIndent")
