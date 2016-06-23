@@ -31,6 +31,7 @@ set gfn=Inconsolata\ Medium\ 14
 set statusline=[FILE\ %F%m%r%w\ -\ %{&ff}\,%L\ lines\]\ \ \ \ [CHAR\ acsii:%03.3b\,hex:%02.2B]\ \ \ \ [POS\ %04l\,%04v\ -\ %p%%]
 set laststatus=2
 set pastetoggle=<F11>
+set paste
 set autoindent
 set smartindent
 set listchars=eol:¬,tab:→→,nbsp:·,trail:•,extends:»,precedes:«
