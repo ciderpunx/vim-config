@@ -54,7 +54,7 @@ filetype plugin on    " Enable filetype-specific plugins
 filetype indent on    " Enable filetype-specific indenting
 
 """"""" ruby specific
-"au BufRead,BufNewFile *.rb		set filetype=ruby
+"au BufRead,BufNewFile *.rb    set filetype=ruby
 "autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
 "autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 "autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
@@ -80,7 +80,7 @@ autocmd FileType perl set autowrite
 """""""""" boilerplate code
 augroup perl
         au BufNewFile *.pl 0r ~/.vim/perl_head
-				au BufNewFile *.pl $
+        au BufNewFile *.pl $
 augroup END
 augroup html
         au BufNewFile *.html 0r ~/.vim/htm_head
@@ -88,11 +88,11 @@ augroup html
 augroup END
 augroup ruby
         au BufNewFile *.rb 0r ~/.vim/ruby_head
-				au BufNewFile *.rb $
+        au BufNewFile *.rb $
 augroup END
 augroup php
         au BufNewFile *.php 0r ~/.vim/php_head
-				au BufNewFile *.php $
+        au BufNewFile *.php $
 augroup END
 
 " Transparent editing of GnuPG-encrypted files
@@ -155,8 +155,13 @@ cmap <C-Tab> <C-C><C-Tab>
 " Dont use q for ex mode
 map Q :q 
 " comment/uncomment blocks of code (in vmode)
-vmap _c :s/^/#/gi<Enter>
-vmap _C :s/^#//gi<Enter>
+vmap _c :s/^/#/<CR>:noh<CR>
+vmap _C :s/^#//<CR>:noh<CR>
+
+" comment/uncomment blocks of code (in vmode)
+vmap -- :s/^/--/<CR>:noh<CR>
+vmap __ :s/^--//<CR>:noh<CR>
+
 " make tab in v mode ident code
 vmap <tab> >gv
 vmap <s-tab> <gv
@@ -173,8 +178,8 @@ vmap <expr>  <S-DOWN>   DVB_Drag('down')
 vmap <expr>  <S-UP>     DVB_Drag('up')
 vmap <expr>  D        DVB_Duplicate()
 
-" Remove any introduced trailing whitespace after moving... 
-let g:DVB_TrimWS = 1                                        
+" Remove any introduced trailing whitespace after moving...
+let g:DVB_TrimWS = 1
 
 """ Omnicomplete and supertab
 highlight Pmenu guibg=DarkSlateGray guifg=LightGray ctermbg=DarkGray ctermfg=LightGray gui=bold 
