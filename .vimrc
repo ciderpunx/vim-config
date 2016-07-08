@@ -13,6 +13,7 @@ endif
 set nocompatible      " We're running Vim, not Vi!
 set hlsearch
 set incsearch
+set smartcase
 set nowrap
 set sw=2
 set tw=9999
@@ -38,6 +39,36 @@ set listchars=eol:¬,tab:→→,nbsp:·,trail:•,extends:»,precedes:«
 set list
 set guitablabel=%N:\ %t\ %M
 
+highlight clear Search
+highlight       Search    ctermfg=White
+
+"Delete in normal mode to switch off highlighting till next search and clear messages...
+Nmap <silent> <BS> [Cancel highlighting]  :call HLNextOff() <BAR> :nohlsearch <BAR> :call VG_Show_CursorColumn('off')<CR>
+
+"Double-delete to remove trailing whitespace...
+Nmap <silent> <BS><BS>  [Remove trailing whitespace] mz:call TrimTrailingWS()<CR>`z
+
+
+" Highlight folds
+" highlight Folded  ctermfg=cyan ctermbg=black
+
+" Toggle on and off...
+nmap <silent> <expr>  zz  FS_ToggleFoldAroundSearch({'context':1})
+
+" Show only sub defns (and maybe comments)...
+let perl_sub_pat = '^\s*\%(sub\|func\|method\|package\)\s\+\k\+'
+let vim_sub_pat  = '^\s*fu\%[nction!]\s\+\k\+'
+augroup FoldSub
+    autocmd!
+    autocmd BufEnter * nmap <silent> <expr>  zp  FS_FoldAroundTarget(perl_sub_pat,{'context':1})
+    autocmd BufEnter * nmap <silent> <expr>  za  FS_FoldAroundTarget(perl_sub_pat.'\\|^\s*#.*',{'context':0, 'folds':'invisible'})
+    autocmd BufEnter *.vim,.vimrc nmap <silent> <expr>  zp  FS_FoldAroundTarget(vim_sub_pat,{'context':1})
+    autocmd BufEnter *.vim,.vimrc nmap <silent> <expr>  za  FS_FoldAroundTarget(vim_sub_pat.'\\|^\s*".*',{'context':0, 'folds':'invisible'})
+    autocmd BufEnter * nmap <silent> <expr>             zv  FS_FoldAroundTarget(vim_sub_pat.'\\|^\s*".*',{'context':0, 'folds':'invisible'})
+augroup END
+
+" Show only C #includes...
+nmap <silent> <expr>  zu  FS_FoldAroundTarget('^\s*use\s\+\S.*;',{'context':1})
 """""""" Specific language bits
 let PHP_BracesAtCodeLevel = 0
 let perl_fold=1
