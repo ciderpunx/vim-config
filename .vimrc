@@ -155,8 +155,8 @@ cmap <C-Tab> <C-C><C-Tab>
 " Dont use q for ex mode
 map Q :q 
 " comment/uncomment blocks of code (in vmode)
-vmap _c :s/^/#/<CR>:noh<CR>
-vmap _C :s/^#//<CR>:noh<CR>
+vmap ## :s/^/#/<CR>:noh<CR>
+vmap -# :s/^#//<CR>:noh<CR>
 
 " comment/uncomment blocks of code (in vmode)
 vmap -- :s/^/--/<CR>:noh<CR>
@@ -166,17 +166,18 @@ vmap __ :s/^--//<CR>:noh<CR>
 vmap <tab> >gv
 vmap <s-tab> <gv
 
-" make tab in normal mode ident code
+" make tab in normal mode indent code
 nmap <tab> I<tab><esc>
 nmap <s-tab> ^i<bs><esc>
 
-"""" for drag visuals (cf: https://github.com/shinokada/dragvisuals.vim)
+""" Replaced dragvisuals with Schelpp cf: https://github.com/zirrostig/vim-schlepp
 
-vmap <expr>  <S-LEFT>   DVB_Drag('left')
-vmap <expr>  <S-RIGHT>  DVB_Drag('right')
-vmap <expr>  <S-DOWN>   DVB_Drag('down')
-vmap <expr>  <S-UP>     DVB_Drag('up')
-vmap <expr>  D        DVB_Duplicate()
+vmap <unique> <s-up>    <Plug>SchleppIndentUp
+vmap <unique> <s-down>  <Plug>SchleppIndentDown
+vmap <unique> <s-left>  <Plug>SchleppLeft
+vmap <unique> <s-right> <Plug>SchleppRight
+let g:Schlepp#allowSquishingLines = 1
+let g:Schlepp#allowSquishingBlocks = 1
 
 " Remove any introduced trailing whitespace after moving...
 let g:DVB_TrimWS = 1
