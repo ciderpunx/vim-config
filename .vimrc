@@ -126,6 +126,17 @@ augroup php
         au BufNewFile *.php $
 augroup END
 
+"" Handy ghcmod keys
+au FileType haskell map <silent> tn :GhcModInfo<CR>
+au FileType haskell map <silent> ti :GhcModTypeInsert<CR>
+au FileType haskell map <silent> ts :GhcModSplitFunCase<CR>
+au FileType haskell map <silent> tq :GhcModType<CR>
+au FileType haskell map <silent> ll :GhcModLint<CR>
+au FileType haskell map <silent> sg :GhcModSigCodeGen<CR>
+
+hi ghcmodType ctermbg=yellow
+let g:ghcmod_type_highlight = 'ghcmodType'
+
 " Transparent editing of GnuPG-encrypted files
 " Based on a solution by Wouter Hanegraaff
 augroup encrypted
