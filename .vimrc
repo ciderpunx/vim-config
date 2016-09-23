@@ -38,9 +38,13 @@ set smartindent
 set listchars=eol:¬,tab:→→,nbsp:·,trail:•,extends:»,precedes:«
 set list
 set guitablabel=%N:\ %t\ %M
+set spelllang=en_gb
 
 highlight clear Search
 highlight       Search    ctermfg=White
+
+" Use ; for :
+nnoremap ; :
 
 "Delete in normal mode to switch off highlighting till next search and clear messages...
 nmap <silent> <BS> [Cancel highlighting]  :call HLNextOff() <BAR> :nohlsearch <BAR> :call VG_Show_CursorColumn('off')<CR>
