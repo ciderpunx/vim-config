@@ -22,6 +22,7 @@ set ts=2
 set expandtab
 set showmatch
 set nu
+set relativenumber
 set sb
 set vb
 set spr
@@ -224,6 +225,17 @@ let g:DVB_TrimWS = 1
 highlight Pmenu guibg=DarkSlateGray guifg=LightGray ctermbg=DarkGray ctermfg=LightGray gui=bold 
 set omnifunc=syntaxcomplete#Complete
 let g:SuperTabDefaultCompletionType = "context"
+
+
+"""""""" Learning HJKL
+nnoremap <up>    <nop>
+nnoremap <down>  <nop>
+nnoremap <left>  <nop>
+nnoremap <right> <nop>
+inoremap <up>    <nop>
+inoremap <down>  <nop>
+inoremap <left>  <nop>
+inoremap <right> <nop>
 
 
 """"""""" TWitVIM config
