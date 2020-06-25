@@ -39,6 +39,7 @@ set listchars=eol:¬,tab:→→,nbsp:·,trail:•,extends:»,precedes:«
 set list
 set guitablabel=%N:\ %t\ %M
 set spelllang=en_gb
+set relativenumber
 
 highlight clear Search
 highlight       Search    ctermfg=White
@@ -135,7 +136,7 @@ au FileType haskell map <silent> tn :GhcModInfo<CR>
 au FileType haskell map <silent> ti :GhcModTypeInsert<CR>
 au FileType haskell map <silent> ts :GhcModSplitFunCase<CR>
 au FileType haskell map <silent> tq :GhcModType<CR>
-au FileType haskell map <silent> ll :GhcModLint<CR>
+au FileType haskell map <silent> LL :GhcModLint<CR>
 au FileType haskell map <silent> sg :GhcModSigCodeGen<CR>
 
 hi ghcmodType ctermbg=yellow
@@ -239,24 +240,24 @@ let g:SuperTabDefaultCompletionType = "context"
 " for twitter
 "let twitvim_api_root = "http://indy.im/api" 
 "let twitvim_api_root = "http://identi.ca/api" 
-let twitvim_cert_insecure = 1 
-let twitvim_browser_cmd = 'iceweasel'
-let twitvim_force_ssl = 1
-let twitvim_old_retweet = 1
-nnoremap <F8> :FriendsTwitter<cr>
-nnoremap <S-F8> :UserTwitter<cr>
-nnoremap <A-F8> :RepliesTwitter<cr>
-nnoremap <C-F8> :DMTwitter<cr>
-nnoremap <F9> :FollowTwitter <C-R><C-W><cr>
+"let twitvim_cert_insecure = 1 
+"let twitvim_browser_cmd = 'iceweasel'
+"let twitvim_force_ssl = 1
+"let twitvim_old_retweet = 1
+"nnoremap <F8> :FriendsTwitter<cr>
+"nnoremap <S-F8> :UserTwitter<cr>
+"nnoremap <A-F8> :RepliesTwitter<cr>
+"nnoremap <C-F8> :DMTwitter<cr>
+"nnoremap <F9> :FollowTwitter <C-R><C-W><cr>
 
 
 
 """""""" Vimclojure
-let vimclojure#HighlightBuiltins   = 1
-let vimclojure#HighlightContrib    = 1
-let vimclojure#ParenRainbow  = 1
-let vimclojure#WantNailgun = 1
-let vimclojure#NailgunClient = "/usr/local/bin/ng"
+"let vimclojure#HighlightBuiltins   = 1
+"let vimclojure#HighlightContrib    = 1
+"let vimclojure#ParenRainbow  = 1
+"let vimclojure#WantNailgun = 1
+"let vimclojure#NailgunClient = "/usr/local/bin/ng"
 "let VIMCLOJURE_SERVER_JAR="$HOME/lib/vimclojure/server-2.3.0.jar"
 
 """""" Pathogen needed for syntastic
