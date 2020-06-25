@@ -22,6 +22,7 @@ set ts=2
 set expandtab
 set showmatch
 set nu
+set relativenumber
 set sb
 set vb
 set spr
@@ -31,8 +32,8 @@ set ff=unix
 set gfn=Inconsolata\ Medium\ 14
 set statusline=[FILE\ %F%m%r%w\ -\ %{&ff}\,%L\ lines\]\ \ \ \ [CHAR\ acsii:%03.3b\,hex:%02.2B]\ \ \ \ [POS\ %04l\,%04v\ -\ %p%%]
 set laststatus=2
+"set paste causes expandtabs not to work! set up a toggle action instead
 set pastetoggle=<F11>
-set paste
 set autoindent
 set smartindent
 set listchars=eol:¬,tab:→→,nbsp:·,trail:•,extends:»,precedes:«
@@ -52,7 +53,6 @@ nmap <silent> <BS> [Cancel highlighting]  :call HLNextOff() <BAR> :nohlsearch <B
 
 "Double-delete to remove trailing whitespace...
 nmap <silent> <BS><BS>  [Remove trailing whitespace] mz:call TrimTrailingWS()<CR>`z
-
 
 " Highlight folds
 " highlight Folded  ctermfg=cyan ctermbg=black
@@ -178,11 +178,9 @@ augroup END
 autocmd BufNewFile,BufRead *.tt setfiletype html
 
 """"""""""""""" Key mappings
-" File explorer in new window - use NERDTree instead
-"noremap <F4>:50vsp<CR> :Explore<CR>
 " Nerdtree toggle
-map <F2>:NERDTreeToggle <CR>
-map <Leader>n <plug>NERDTreeTabsToggle<CR>
+map <Leader> n :NERDTreeToggle <CR>
+map <F2> <plug>NERDTreeTabsToggle<CR>
 " this lets you toggle hlsearch/nohlsearch
 map <F3>:let &hlsearch=!&hlsearch<CR>
 "repeat last lynx command
@@ -193,19 +191,15 @@ map <F7>:10sp /dev/null<CR>:set nonu<CR>:set wrap<CR>:r!sudo tail -n80 /var/log/
 map <F8>:sp /dev/null<CR>:set nonu<CR>:r!lynx -prettysrc -source http://
 " open a bash shell in a subwindow
 map <F12> :20sp <CR>:!bash <CR>
-" Various convenience ones
-imap <C-a> <Esc>I
-imap <C-e> <ESC>A
-map <C-Tab> <C-W>w
-imap <C-Tab> <C-O><C-W>w
-cmap <C-Tab> <C-C><C-Tab>
+
 " Dont use q for ex mode
-map Q :q 
-" comment/uncomment blocks of code (in vmode)
+map Q :q
+
+" comment/uncomment blocks of perl/bash/php code (in vmode)
 vmap ## :s/^/#/<CR>:noh<CR>
 vmap -# :s/^#//<CR>:noh<CR>
 
-" comment/uncomment blocks of code (in vmode)
+" comment/uncomment blocks of haskell code (in vmode)
 vmap -- :s/^/--/<CR>:noh<CR>
 vmap __ :s/^--//<CR>:noh<CR>
 
@@ -218,7 +212,6 @@ nmap <tab> I<tab><esc>
 nmap <s-tab> ^i<bs><esc>
 
 """ Replaced dragvisuals with Schelpp cf: https://github.com/zirrostig/vim-schlepp
-
 vmap <unique> <s-up>    <Plug>SchleppIndentUp
 vmap <unique> <s-down>  <Plug>SchleppIndentDown
 vmap <unique> <s-left>  <Plug>SchleppLeft
@@ -235,11 +228,23 @@ set omnifunc=syntaxcomplete#Complete
 let g:SuperTabDefaultCompletionType = "context"
 
 
+"""""""" Learning HJKL
+nnoremap <up>    <nop>
+nnoremap <down>  <nop>
+nnoremap <left>  <nop>
+nnoremap <right> <nop>
+inoremap <up>    <nop>
+inoremap <down>  <nop>
+inoremap <left>  <nop>
+inoremap <right> <nop>
+
+
 """"""""" TWitVIM config
 
 " for twitter
 "let twitvim_api_root = "http://indy.im/api" 
 "let twitvim_api_root = "http://identi.ca/api" 
+<<<<<<< HEAD
 "let twitvim_cert_insecure = 1 
 "let twitvim_browser_cmd = 'iceweasel'
 "let twitvim_force_ssl = 1
@@ -249,8 +254,17 @@ let g:SuperTabDefaultCompletionType = "context"
 "nnoremap <A-F8> :RepliesTwitter<cr>
 "nnoremap <C-F8> :DMTwitter<cr>
 "nnoremap <F9> :FollowTwitter <C-R><C-W><cr>
-
-
+=======
+let twitvim_cert_insecure = 1
+let twitvim_browser_cmd = 'firefox'
+let twitvim_force_ssl = 1
+let twitvim_old_retweet = 1
+nnoremap <F8> :FriendsTwitter<cr>
+nnoremap <S-F8> :UserTwitter<cr>
+nnoremap <A-F8> :RepliesTwitter<cr>
+nnoremap <C-F8> :DMTwitter<cr>
+nnoremap <F9> :FollowTwitter <C-R><C-W><cr>
+>>>>>>> 22901933896a7d46d9f2e01bed16993d66d09dd2
 
 """""""" Vimclojure
 "let vimclojure#HighlightBuiltins   = 1
